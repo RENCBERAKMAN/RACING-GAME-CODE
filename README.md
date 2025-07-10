@@ -32,9 +32,9 @@ This project was built as a sandbox to explore vehicle physics, spline-based nav
 
 \## 📒 Developer Note
 
-This project is not a commercial release, but a personal sandbox for learning.  
+> This project does not aim for success — it is a growth-oriented endeavor.  
 
-Some code may be outdated or unused, as different approaches were explored.  
+> Some parts of the code may be non-functional due to transitions between different approaches over time.  
 
-Goal: improve Unreal mastery and build more refined systems going forward.
+> My goal is to learn Unreal Engine and improve the quality of my future projects.
 
