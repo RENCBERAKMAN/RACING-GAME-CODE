@@ -11,7 +11,7 @@ UMyProjectSportsWheelRear::UMyProjectSportsWheelRear()
 	WheelRadius = 40.f;
 	WheelWidth = 40.0f;
 
-	FrictionForceMultiplier = 4.0f;
+	FrictionForceMultiplier = 6.0f;
 
 	SlipThreshold = 80.0f;
 	SkidThreshold = 120.0f;

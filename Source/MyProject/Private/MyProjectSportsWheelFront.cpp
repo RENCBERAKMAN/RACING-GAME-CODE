@@ -7,10 +7,10 @@ UMyProjectSportsWheelFront::UMyProjectSportsWheelFront()
 	MaxSteerAngle = 40.f;
 
 	WheelRadius = 40.f;
-	WheelWidth = 40.0f;
+	WheelWidth = 60.0f;
 
 	FrictionForceMultiplier = 3.5f;
 
-	SlipThreshold = 80.0f;
-	SkidThreshold = 120.0f;
+	SlipThreshold = 50.0f;
+	SkidThreshold = 100.0f;
 }

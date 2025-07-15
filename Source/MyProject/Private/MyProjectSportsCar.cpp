@@ -89,7 +89,7 @@ void AMyProjectSportsCar::Tick(float DeltaTime)
 
 	if (Speed < TargetSpeed)
 	{
-		FVector Force = GetActorForwardVector() * 60000.f;
+		FVector Force = GetActorForwardVector() * 120000.f;
 		GetMesh()->AddForce(Force);
 	}
 
@@ -150,8 +150,8 @@ void AMyProjectSportsCar::Tick(float DeltaTime)
 		GetMesh()->SetPhysicsLinearVelocity(Vel);
 	}
 
-	GetMesh()->SetLinearDamping(0.2f);
-	GetMesh()->SetAngularDamping(1.0f);
+	GetMesh()->SetLinearDamping(0.1f);
+	GetMesh()->SetAngularDamping(0.5f);
 
 	FRotator Rot = GetActorRotation();
 	if (FMath::Abs(Rot.Roll) > 25.f || FMath::Abs(Rot.Pitch) > 25.f)
@@ -165,4 +165,5 @@ void AMyProjectSportsCar::Tick(float DeltaTime)
 	GetChaosVehicleMovement()->SetBrakeInput(FinalBrake);
 
 	UE_LOG(LogTemp, Warning, TEXT("Steer: %.2f | Throttle: %.2f | Speed: %.0f | Lap: %d"), SteeringInput, FinalThrottle, Speed, LapCount);
+	UE_LOG(LogTemp, Warning, TEXT("BotSpeed: %.0f"), Speed);
 }
