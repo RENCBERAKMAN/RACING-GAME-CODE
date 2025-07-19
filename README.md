@@ -32,7 +32,7 @@ This project was built as a sandbox to explore vehicle physics, spline-based nav
 
 \## 📒 Developer Note
 
-> This project does not aim for success — it is a growth-oriented endeavor.  
+> This project does not aim for success it is a growth-oriented endeavor.  
 
 > Some parts of the code may be non-functional due to transitions between different approaches over time.  
 
