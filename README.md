@@ -1,9 +1,9 @@
 # MyProject Sports Car — Unreal Engine C++ Practice Project 🏎️🧪
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Unreal_Engine_Logo.svg" alt="Unreal Engine Logo" width="50" />
-  &nbsp;&nbsp;
-  <img src="https://img.icons8.com/color/96/000000/c-plus-plus-logo.png" alt="C++ Logo" width="50" />
+  <img src="https://img.icons8.com/color/96/000000/c-plus-plus-logo.png" alt="C++" />
+  <img src="https://img.icons8.com/ios-filled/100/ffffff/unreal-engine.png" alt="Unreal Engine" />
 </p>
+
 
 This project was built as a sandbox to explore vehicle physics, spline-based navigation, and AI driving logic using Unreal Engine C++. It is not meant to be a finished game or product. Instead, it focuses on learning, experimenting, and building a strong technical foundation for future game projects.
 
