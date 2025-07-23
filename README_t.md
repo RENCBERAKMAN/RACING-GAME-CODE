@@ -38,7 +38,7 @@ Bu proje, Unreal Engine üzerinde araç fiziği, yapay zeka navigasyonu ve splin
 
 
 
-> Bu proje bir başarı hikâyesi değil — bir gelişim platformudur.  
+> Bu proje başarı amacı gütmeyen bir projedir — bir gelişim projesidir.  
 
 > Kodlar zamanla farklı yöntemlere geçildiği için işlevsiz bölümler içerebilir.  
 
