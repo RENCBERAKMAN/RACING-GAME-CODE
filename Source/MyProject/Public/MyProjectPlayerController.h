@@ -1,6 +1,4 @@
-﻿// Copyright Epic Games, Inc. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
@@ -9,60 +7,46 @@
 class UInputMappingContext;
 class AMyProjectPawn;
 class UMyProjectUI;
+class AMyProjectSportsCar;
 
-/**
- *  Vehicle Player Controller class
- *  Handles input mapping and user interface
- */
-UCLASS(abstract)
+UCLASS()
 class MYPROJECT_API AMyProjectPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
 protected:
-
-	/** Input Mapping Context to be used for player input */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputMappingContext* InputMappingContext;
 
-	/** If true, the optional steering wheel input mapping context will be registered */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	bool bUseSteeringWheelControls = false;
 
-	/** Optional Input Mapping Context to be used for steering wheel input.
-	 *  This is added alongside the default Input Mapping Context and does not block other forms of input.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(EditCondition="bUseSteeringWheelControls"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (EditCondition = "bUseSteeringWheelControls"))
 	UInputMappingContext* SteeringWheelInputMappingContext;
 
-	/** Pointer to the controlled vehicle pawn */
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<AMyProjectPawn> VehiclePawn;
 
-	/** Type of the UI to spawn */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = UI)
 	TSubclassOf<UMyProjectUI> VehicleUIClass;
 
-	/** Pointer to the UI widget */
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UMyProjectUI> VehicleUI;
 
-	
+	// 👇 Eklendi: kontrol edilen aracı referanslamak için
+	UPROPERTY()
+	AMyProjectSportsCar* ControlledCar;
 
-	// Begin Actor interface
 protected:
-
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-
-public:
-
-	virtual void Tick(float Delta) override;
-
-	// End Actor interface
-
-	// Begin PlayerController interface
-protected:
-
 	virtual void OnPossess(APawn* InPawn) override;
 
-	// End PlayerController interface
+public:
+	virtual void Tick(float DeltaSeconds) override;
+
+	// 👇 Eklendi: UI'dan çağrılacak input fonksiyonları
+	void HandleThrottle(float Value);
+	void HandleSteer(float Value);
+	void HandleBrake(bool bIsBraking);
 };

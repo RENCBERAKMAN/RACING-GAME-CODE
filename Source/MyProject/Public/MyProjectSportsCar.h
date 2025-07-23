@@ -19,6 +19,16 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+public:
+	// UI üzerinden manuel kontrol fonksiyonları
+	UFUNCTION(BlueprintCallable)
+	void ApplyThrottle(float Value);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplySteer(float Value);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyBrake(bool bIsBraking);
 	UFUNCTION(BlueprintCallable)
 	void AssignSpline(AActor* InSplineActor);
 	UPROPERTY(VisibleAnywhere)

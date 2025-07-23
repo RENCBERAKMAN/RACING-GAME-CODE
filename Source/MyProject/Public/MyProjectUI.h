@@ -1,42 +1,54 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "MyProjectUI.generated.h"
 
-/**
- *  Simple Vehicle HUD class
- *  Displays the current speed and gear.
- *  Widget setup is handled in a Blueprint subclass.
- */
-UCLASS(abstract)
+UCLASS()
 class MYPROJECT_API UMyProjectUI : public UUserWidget
 {
-	GENERATED_BODY()
-	
-protected:
-
-	/** Controls the display of speed in Km/h or MPH */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Vehicle)
-	bool bIsMPH = false;
-
-public:
-
-	/** Called to update the speed display */
-	void UpdateSpeed(float NewSpeed);
-
-	/** Called to update the gear display */
-	void UpdateGear(int32 NewGear);
+    GENERATED_BODY()
 
 protected:
 
-	/** Implemented in Blueprint to display the new speed */
-	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
-	void OnSpeedUpdate(float NewSpeed);
+    // BP_RaceUI'daki butonlar
+    UPROPERTY(meta = (BindWidget))
+    UButton* Gas;
 
-	/** Implemented in Blueprint to display the new gear */
-	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
-	void OnGearUpdate(int32 NewGear);
+    UPROPERTY(meta = (BindWidget))
+    UButton* Break;
+
+    UPROPERTY(meta = (BindWidget))
+    UButton* Left;
+
+    UPROPERTY(meta = (BindWidget))
+    UButton* Right;
+
+    // Eventler için fonksiyonlar
+    UFUNCTION()
+    void OnGasPressed();
+
+    UFUNCTION()
+    void OnGasReleased();
+
+    UFUNCTION()
+    void OnBreakPressed();
+
+    UFUNCTION()
+    void OnBreakReleased();
+
+    UFUNCTION()
+    void OnLeftPressed();
+
+    UFUNCTION()
+    void OnLeftReleased();
+
+    UFUNCTION()
+    void OnRightPressed();
+
+    UFUNCTION()
+    void OnRightReleased();
+
+    virtual void NativeConstruct() override;
 };

@@ -1,57 +1,56 @@
-﻿// Copyright Epic Games, Inc. All Rights Reserved.
-
-
-#include "MyProjectPlayerController.h"
-#include "MyProjectPawn.h"
-#include "MyProjectUI.h"
-#include "EnhancedInputSubsystems.h"
-#include "ChaosWheeledVehicleMovementComponent.h"
+﻿#include "MyProjectPlayerController.h"
+#include "MyProjectSportsCar.h"
+#include "Kismet/GameplayStatics.h"
 
 void AMyProjectPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	// spawn the UI widget and add it to the viewport
-	VehicleUI = CreateWidget<UMyProjectUI>(this, VehicleUIClass);
 
-	check(VehicleUI);
-
-	VehicleUI->AddToViewport();
-}
-
-void AMyProjectPlayerController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-	
-	// get the enhanced input subsystem
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
-	{
-		// add the mapping context so we get controls
-		Subsystem->AddMappingContext(InputMappingContext, 0);
-
-		// optionally add the steering wheel context
-		if (bUseSteeringWheelControls && SteeringWheelInputMappingContext)
-		{
-			Subsystem->AddMappingContext(SteeringWheelInputMappingContext, 1);
-		}
-	}
-}
-
-void AMyProjectPlayerController::Tick(float Delta)
-{
-	Super::Tick(Delta);
-
-	if (IsValid(VehiclePawn) && IsValid(VehicleUI))
-	{
-		VehicleUI->UpdateSpeed(VehiclePawn->GetChaosVehicleMovement()->GetForwardSpeed());
-		VehicleUI->UpdateGear(VehiclePawn->GetChaosVehicleMovement()->GetCurrentGear());
-	}
+	// Kontrol edilen aracın referansını al
+	ControlledCar = Cast<AMyProjectSportsCar>(GetPawn());
 }
 
 void AMyProjectPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	// get a pointer to the controlled pawn
-	VehiclePawn = CastChecked<AMyProjectPawn>(InPawn);
+	ControlledCar = Cast<AMyProjectSportsCar>(InPawn);
+}
+
+void AMyProjectPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	// (Input bağlama işlemleri varsa buraya gelir)
+}
+
+void AMyProjectPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// Gerekirse her frame işlem yapılabilir
+}
+
+void AMyProjectPlayerController::HandleThrottle(float Value)
+{
+	if (ControlledCar)
+	{
+		ControlledCar->ApplyThrottle(Value);
+	}
+}
+
+void AMyProjectPlayerController::HandleSteer(float Value)
+{
+	if (ControlledCar)
+	{
+		ControlledCar->ApplySteer(Value);
+	}
+}
+
+void AMyProjectPlayerController::HandleBrake(bool bIsBraking)
+{
+	if (ControlledCar)
+	{
+		ControlledCar->ApplyBrake(bIsBraking);
+	}
 }

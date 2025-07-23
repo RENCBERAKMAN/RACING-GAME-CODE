@@ -62,7 +62,29 @@ AMyProjectSportsCar::AMyProjectSportsCar()
 	GetMesh()->SetLinearDamping(0.5f);
 	GetMesh()->SetAngularDamping(1.0f);
 }
+void AMyProjectSportsCar::ApplyThrottle(float Value)
+{
+	if (auto* Movement = GetChaosVehicleMovement())
+	{
+		Movement->SetThrottleInput(Value);
+	}
+}
 
+void AMyProjectSportsCar::ApplySteer(float Value)
+{
+	if (auto* Movement = GetChaosVehicleMovement())
+	{
+		Movement->SetSteeringInput(Value);
+	}
+}
+
+void AMyProjectSportsCar::ApplyBrake(bool bIsBraking)
+{
+	if (auto* Movement = GetChaosVehicleMovement())
+	{
+		Movement->SetBrakeInput(bIsBraking ? 1.0f : 0.0f);
+	}
+}
 void AMyProjectSportsCar::BeginPlay()
 {
 	Super::BeginPlay();
