@@ -19,7 +19,7 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	// Input bileşeni override'u (buraya eklemen lazım)
+	// Input bileşeni override
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// UI üzerinden manuel kontrol fonksiyonları
