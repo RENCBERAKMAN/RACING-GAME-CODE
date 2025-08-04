@@ -4,49 +4,45 @@
 #include "MyProjectSportsCar.h"
 #include "Components/TextBlock.h"
 #include "Components/ProgressBar.h"
-#include "Components/SlateWrapperTypes.h" // Renk değiştirme için gerekli
+#include "Components/SlateWrapperTypes.h"
 
 void ARacePlayerController::BeginPlay()
 {
     Super::BeginPlay();
 
-    // Eğer UI henüz oluşturulmadıysa, oluştur
+    // 🎯 Mouse imleci ve input ayarı
+    bShowMouseCursor = true;
+
+    FInputModeUIOnly InputMode;
+    InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+    InputMode.SetWidgetToFocus(nullptr);
+    SetInputMode(InputMode);
+
+    // 🎮 UI oluşturulup ekrana yerleştirilmesi
     if (!RaceUI && RaceUIClass)
     {
         RaceUI = CreateWidget<URaceUIBase>(this, RaceUIClass);
     }
 
-    // Ekranda değilse ekle
     if (RaceUI && !RaceUI->IsInViewport())
     {
         RaceUI->AddToViewport();
+        RaceUI->SetVisibility(ESlateVisibility::Visible);
+        RaceUI->SetRenderOpacity(1.0f);
         UE_LOG(LogTemp, Warning, TEXT("BP_MobileRaceUI başarıyla ekrana eklendi."));
     }
     else if (!RaceUI)
     {
-        UE_LOG(LogTemp, Error, TEXT("BP_MobileRaceUI yüklenemedi! RaceUIClass atanmamış mı veya cast başarısız mı?"));
+        UE_LOG(LogTemp, Error, TEXT("BP_MobileRaceUI yüklenemedi! RaceUIClass atanmamış mı?"));
     }
-    if (RaceUI)
-{
-    if (!RaceUI->SpeedText) UE_LOG(LogTemp, Error, TEXT("SpeedText nullptr! UI'da tanımlı mı?"));
-    if (!RaceUI->SpeedBar) UE_LOG(LogTemp, Error, TEXT("SpeedBar nullptr! UI'da tanımlı mı?"));
-}
+
+    // Debug için null kontrolleri
     if (RaceUI)
     {
         if (!RaceUI->SpeedText) UE_LOG(LogTemp, Error, TEXT("SpeedText nullptr! UI'da tanımlı mı?"));
-        if (!RaceUI->SpeedBar) UE_LOG(LogTemp, Error, TEXT("SpeedBar nullptr! UI'da tanımlı mı?"));
+        if (!RaceUI->SpeedBar)  UE_LOG(LogTemp, Error, TEXT("SpeedBar nullptr! UI'da tanımlı mı?"));
     }
-    if (RaceUI)
-    {
-        RaceUI->AddToViewport();
-        RaceUI->SetVisibility(ESlateVisibility::Visible);
-        RaceUI->SetRenderOpacity(1.0f); // Tam görünürlük
-
-        UE_LOG(LogTemp, Warning, TEXT("UI zorla görünür hale getirildi"));
-    }
-    UE_LOG(LogTemp, Warning, TEXT("BP_MobileRaceUI ekrana eklendi!"));
 }
-
 
 void ARacePlayerController::Tick(float DeltaSeconds)
 {
@@ -55,42 +51,30 @@ void ARacePlayerController::Tick(float DeltaSeconds)
     if (AMyProjectSportsCar* Vehicle = Cast<AMyProjectSportsCar>(GetPawn()))
     {
         const float Speed = Vehicle->GetVelocity().Size();
-        const float MaxSpeed = 3000.0f; // Ayarlanabilir
+        const float MaxSpeed = 3000.0f;
 
-        // 📝 SpeedText güncellemesi
         if (RaceUI && RaceUI->SpeedText)
         {
             FText SpeedDisplay = FText::FromString(FString::Printf(TEXT("Hız: %.0f km/h"), Speed / 28.0f));
             RaceUI->SpeedText->SetText(SpeedDisplay);
         }
 
-        // 📊 SpeedBar doluluk ve renk geçişi
         if (RaceUI && RaceUI->SpeedBar)
         {
             float Ratio = FMath::Clamp(Speed / MaxSpeed, 0.0f, 1.0f);
             RaceUI->SpeedBar->SetPercent(Ratio);
 
-            // Renk geçişi ekle
-            FLinearColor FillColor;
-
-            if (Ratio < 0.5f)
-            {
-                FillColor = FLinearColor::Green;
-            }
-            else if (Ratio < 0.8f)
-            {
-                FillColor = FLinearColor::Yellow;
-            }
-            else
-            {
-                FillColor = FLinearColor::Red;
-            }
+            FLinearColor FillColor =
+                Ratio < 0.5f ? FLinearColor::Green :
+                Ratio < 0.8f ? FLinearColor::Yellow :
+                FLinearColor::Red;
 
             RaceUI->SpeedBar->SetFillColorAndOpacity(FillColor);
         }
     }
 }
 
+// 🔧 GAZ
 void ARacePlayerController::GazVer()
 {
     if (AMyProjectSportsCar* Vehicle = Cast<AMyProjectSportsCar>(GetPawn()))
@@ -100,6 +84,7 @@ void ARacePlayerController::GazVer()
     }
 }
 
+// 🔧 FREN / GERİ
 void ARacePlayerController::FrenYap()
 {
     if (AMyProjectSportsCar* Vehicle = Cast<AMyProjectSportsCar>(GetPawn()))
@@ -113,11 +98,12 @@ void ARacePlayerController::FrenYap()
         else
         {
             Vehicle->SetBrakeInput(0.0f);
-            Vehicle->SetThrottleInput(-1.0f);
+            Vehicle->SetThrottleInput(-1.0f); // Geri git
         }
     }
 }
 
+// 🔧 SOL
 void ARacePlayerController::DireksiyonSol()
 {
     if (AMyProjectSportsCar* Vehicle = Cast<AMyProjectSportsCar>(GetPawn()))
@@ -126,6 +112,7 @@ void ARacePlayerController::DireksiyonSol()
     }
 }
 
+// 🔧 SAĞ
 void ARacePlayerController::DireksiyonSag()
 {
     if (AMyProjectSportsCar* Vehicle = Cast<AMyProjectSportsCar>(GetPawn()))
